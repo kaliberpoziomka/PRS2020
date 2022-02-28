@@ -6,6 +6,7 @@ public class TwoThreadsLogs {
 
     public static Logger log = Logger.getLogger(TwoThreadsLogs.class);
     public static Integer i = 0;
+    public static Long jakasZmienna = 0L;
 
     public static void main(String[] args) {
 
@@ -35,9 +36,12 @@ public class TwoThreadsLogs {
         @Override // override method from superclass
         public void run() {
             while (i <= 500) {
-                log.info("Loop " + this.loopNum + ", Read: " + i);
-                i = i + 1;
-                log.info("Loop " + this.loopNum + ", Write: " + i);
+                log.info("Loop " + this.loopNum + ", Read: " + i); // tutaj jest kod niezsynchronizowany - wartości Read mogą mieć później wyższe wartości
+                synchronized (jakasZmienna) { // sekcja zsynchronizowana - ten kod musi być wykonany razem
+                    // zmienna jakasZmienna jest tokenem, tylko jeden wątek może wejść, nastepny może wejść dopiero jak poprzedni się wykona
+                    i = i + 1;
+                    log.info("Loop " + this.loopNum + ", Write: " + i);
+                }
             }
         }
     }

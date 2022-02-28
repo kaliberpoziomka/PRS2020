@@ -6,6 +6,7 @@ public class TwoThreads {
         Concurrency thread1 = new Concurrency(1); // create an object of class Concurrent which is a thread
         Concurrency thread2 = new Concurrency(2);
 
+        // here we never know what order will be, they are concurent
         thread1.start();
         thread2.start();
     }
@@ -21,11 +22,12 @@ public class TwoThreads {
         @Override // override method from superclass
         public void run() {
             for (int i = 1; i <= 500; i++) {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    System.out.println(e);
-                }
+                // with sleep commented there is better concurrency showed
+//                try {
+//                    Thread.sleep(500);
+//                } catch (InterruptedException e) {
+//                    System.out.println(e);
+//                }
                 System.out.println("Loop " + this.loopNum + ", Iteration: " + i);
             }
         }
